@@ -59,6 +59,18 @@ extension ViewController: UITextViewDelegate {
 			}
 		}
 	}
-	
 
+```
+
+## ViewControllerMarksCodeSnippet
+
+```swift
+// MARK: - Properties
+// MARK: - IBOutlets
+// MARK: - Life cycle
+// MARK: - Set up
+// MARK: - IBActions
+// MARK: - Navigation
+// MARK: - Network Manager calls
+// MARK: - Extensions
 ```
