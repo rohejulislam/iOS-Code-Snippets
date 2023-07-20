@@ -74,3 +74,73 @@ extension ViewController: UITextViewDelegate {
 // MARK: - Network Manager calls
 // MARK: - Extensions
 ```
+
+
+## Rounded Text field with padding 
+
+```swift
+import UIKit
+
+@IBDesignable
+class FSRoundedTextField: UITextField {
+    var borderView: UIView!
+    
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+            layer.masksToBounds = cornerRadius > 0
+        }
+    }
+    
+    @IBInspectable var paddingLeft: CGFloat = 15
+    @IBInspectable var paddingRight: CGFloat = 15
+    
+    @IBInspectable var placeholderTextColor: UIColor? {
+        didSet {
+            guard let attributedPlaceholder = attributedPlaceholder, let placeholderTextColor = placeholderTextColor else { return }
+            self.attributedPlaceholder = NSAttributedString(string: attributedPlaceholder.string, attributes: [NSAttributedString.Key.foregroundColor: placeholderTextColor])
+        }
+    }
+    
+    @IBInspectable var localizedPlaceholderText: String? {
+        didSet {
+            guard let localizedPlaceholder = localizedPlaceholderText else { return }
+            if let placeholderTextColor = placeholderTextColor {
+                attributedPlaceholder = NSAttributedString(string: NSLocalizedString(localizedPlaceholder, comment: ""), attributes: [NSAttributedString.Key.foregroundColor: placeholderTextColor])
+            } else {
+                placeholder = NSLocalizedString(localizedPlaceholder, comment: "")
+            }
+        }
+    }
+    
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: paddingLeft, bottom: 0, right: paddingRight))
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: paddingLeft, bottom: 0, right: paddingRight))
+    }
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: paddingLeft, bottom: 0, right: paddingRight))
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    private func setup() {
+        layer.cornerRadius = cornerRadius
+        layer.masksToBounds = cornerRadius > 0
+    }
+    
+}
+
+```
